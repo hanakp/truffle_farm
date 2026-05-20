@@ -2,6 +2,7 @@
     <string name="app_name">truffleFarm</string>
 
     <!-- Navigácia -->
+    <string name="nav_home">Domov</string>
     <string name="nav_map">Mapa</string>
     <string name="nav_farms">Moje farmy</string>
     <string name="nav_notes">Poznámky</string>

@@ -2,6 +2,7 @@
     <string name="app_name">truffleFarm</string>
 
     <!-- Navigation -->
+    <string name="nav_home">Home</string>
     <string name="nav_map">Map</string>
     <string name="nav_farms">My Farms</string>
     <string name="nav_notes">Notes</string>

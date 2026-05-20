@@ -1,6 +1,8 @@
 package com.example.trufflefarm
 
 import android.os.Bundle
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,7 +12,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), 
     AreaListFragment.OnAreaSelectedListener, 
-    NoteListFragment.OnNoteSelectedListener {
+    NoteListFragment.OnNoteSelectedListener,
+    HomeFragment.OnHomeNavigationListener {
+
+    private lateinit var bottomNav: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +27,13 @@ class MainActivity : AppCompatActivity(),
             insets
         }
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav = findViewById(R.id.bottom_navigation)
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.nav_home -> {
+                    replaceFragment(HomeFragment(), false)
+                    true
+                }
                 R.id.nav_map -> {
                     replaceFragment(MapFragment())
                     true
@@ -46,14 +55,30 @@ class MainActivity : AppCompatActivity(),
         }
 
         if (savedInstanceState == null) {
-            replaceFragment(MapFragment())
+            replaceFragment(HomeFragment(), false)
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                if (currentFragment !is HomeFragment) {
+                    bottomNav.selectedItemId = R.id.nav_home
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment, showBottomNav: Boolean = true) {
+        bottomNav.visibility = if (showBottomNav) View.VISIBLE else View.GONE
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    override fun onNavigateTo(itemId: Int) {
+        bottomNav.selectedItemId = itemId
     }
 
     override fun onAreaSelected(lat: Double, lng: Double) {
@@ -71,7 +96,7 @@ class MainActivity : AppCompatActivity(),
                 putDouble("lng", lng)
             }
         }
-        findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = R.id.nav_map
+        bottomNav.selectedItemId = R.id.nav_map
         replaceFragment(mapFragment)
     }
 }
