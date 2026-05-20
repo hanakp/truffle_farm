@@ -65,4 +65,9 @@
     <string name="change_language">Zmeniť jazyk</string>
     <string name="english">Angličtina</string>
     <string name="slovak">Slovenčina</string>
+
+    <!-- Typy oblastí -->
+    <string name="type_soil">Oblasť pôdy</string>
+    <string name="type_plants">Oblasť výsadby</string>
+    <string name="type_farm">Farma</string>
 </resources>

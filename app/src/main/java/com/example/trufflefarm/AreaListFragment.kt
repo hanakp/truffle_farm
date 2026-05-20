@@ -152,7 +152,10 @@ class AreaListFragment : Fragment() {
                 setTypeface(null, android.graphics.Typeface.BOLD)
             }
             view.findViewById<TextView>(android.R.id.text2).apply {
-                text = farm.date
+                val details = mutableListOf<String>()
+                if (farm.notes.isNotEmpty()) details.add(farm.notes)
+                if (farm.date.isNotEmpty()) details.add(farm.date)
+                text = details.joinToString(" | ")
             }
             view.setOnClickListener { onClick(farm) }
             return view
@@ -162,16 +165,21 @@ class AreaListFragment : Fragment() {
             val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_expandable_list_item_2, parent, false)
             val area = getChild(groupPosition, childPosition)
             val icon = if (area.type == "SOIL") "🟤" else "🌳"
+            
             val typeName = when(area.type) {
-                "SOIL" -> context.getString(R.string.define_soil_area)
-                "PLANTS" -> context.getString(R.string.define_planting_area)
+                "SOIL" -> context.getString(R.string.type_soil)
+                "PLANTS" -> context.getString(R.string.type_plants)
                 else -> area.type
             }
+
             view.findViewById<TextView>(android.R.id.text1).apply {
                 text = "      $icon ${area.name} ($typeName)"
             }
             view.findViewById<TextView>(android.R.id.text2).apply {
-                text = if (area.date.isNotEmpty()) "            ${area.date}" else ""
+                val details = mutableListOf<String>()
+                if (area.notes.isNotEmpty()) details.add(area.notes)
+                if (area.date.isNotEmpty()) details.add(area.date)
+                text = "            " + details.joinToString(" | ")
             }
             view.setOnClickListener { onClick(area) }
             return view

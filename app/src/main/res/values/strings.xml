@@ -65,4 +65,9 @@
     <string name="change_language">Change Language</string>
     <string name="english">English</string>
     <string name="slovak">Slovenčina</string>
+
+    <!-- Area Types -->
+    <string name="type_soil">Soil Area</string>
+    <string name="type_plants">Planting Area</string>
+    <string name="type_farm">Farm</string>
 </resources>
