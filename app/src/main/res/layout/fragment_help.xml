@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -12,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Truffle Farm Guide"
+            android:text="@string/help_title"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
@@ -20,54 +21,95 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. Navigating the Map"
+            android:text="@string/help_step1_title"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Use the search bar at the top to find your city or region. The map uses Satellite view by default to help you identify your trees."
+            android:text="@string/help_step1_desc"
             android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2. Adding Notes &amp; Markers"
+            android:text="@string/help_step2_title"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Long-press any location on the map and select 'Add Note/Marker'. Enter details like 'Oak tree - black truffles'. These appear as pins on your map."
+            android:text="@string/help_step2_desc"
             android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3. Drawing Farm Boundaries"
+            android:text="@string/help_step3_title"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Long-press on the map and select 'Define Farm Area (Draw)'. Tap the map to place points around your farm's perimeter. Use the 'Undo' button to remove the last point or 'Restart' to clear all points. When finished, tap 'Finish' and give it a name. It will be saved as a green area."
+            android:text="@string/help_step3_desc"
             android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4. Managing your Data"
+            android:text="@string/help_step4_title"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Use the 'My Farms' tab to see all your saved areas, and the 'Notes' tab to see all individual markers. Tapping any item in these lists will fly you directly to that spot on the map."
+            android:text="@string/help_step4_desc"
             android:layout_marginBottom="24dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_language"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_lang_en"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/english"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btn_lang_sk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/slovak" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

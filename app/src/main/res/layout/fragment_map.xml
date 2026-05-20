@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="Search city or area..."
+                android:hint="@string/search_hint"
                 android:padding="12dp"
                 android:singleLine="true"
                 android:inputType="text"
@@ -43,7 +43,7 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_search"
-                android:contentDescription="Search" />
+                android:contentDescription="@string/search_desc" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@android:color/white"
-            android:text="Undo" />
+            android:text="@string/undo" />
 
         <Button
             android:id="@+id/btn_clear"
@@ -74,13 +74,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@android:color/white"
-            android:text="Restart" />
+            android:text="@string/restart" />
 
         <Button
             android:id="@+id/btn_finish_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish" />
+            android:text="@string/finish" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

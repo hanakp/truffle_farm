@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">truffleFarm</string>
+
+    <!-- Navigácia -->
+    <string name="nav_map">Mapa</string>
+    <string name="nav_farms">Moje farmy</string>
+    <string name="nav_notes">Poznámky</string>
+    <string name="nav_help">Pomoc</string>
+
+    <!-- Mapa UI -->
+    <string name="search_hint">Hľadať mesto alebo oblasť…</string>
+    <string name="undo">Späť</string>
+    <string name="restart">Reštartovať</string>
+    <string name="finish">Dokončiť</string>
+    <string name="search_desc">Hľadať</string>
+
+    <!-- Dialógy a akcie -->
+    <string name="select_action">Vybrať akciu</string>
+    <string name="add_note_marker">Pridať poznámku/značku</string>
+    <string name="define_farm_boundary">Definovať hranicu farmy</string>
+    <string name="define_soil_area">Definovať oblasť pôdy</string>
+    <string name="define_planting_area">Definovať oblasť výsadby</string>
+    <string name="save">Uložiť</string>
+    <string name="cancel">Zrušiť</string>
+
+    <string name="add_farm_note">Pridať poznámku k farme</string>
+    <string name="note_hint">napr. Dub s čiernymi hľuzovkami</string>
+    <string name="new_area_title">Uložiť oblasť: %1$s</string>
+    <string name="name_hint">Názov (napr. Severný kopec)</string>
+    <string name="soil_notes_hint">Typ pôdy (napr. ílovitá, pH 7.5)</string>
+    <string name="plants_notes_hint">Stromy/Rastliny (napr. 50x dub)</string>
+    <string name="general_notes_hint">Všeobecné poznámky</string>
+    <string name="name_required">Meno je povinné</string>
+
+    <!-- Správy pri kreslení -->
+    <string name="msg_draw_farm">Kreslenie hranice farmy: Klepnutím pridajte body</string>
+    <string name="msg_draw_soil">Kreslenie oblasti pôdy: Klepnutím pridajte body</string>
+    <string name="msg_draw_plants">Kreslenie oblasti výsadby: Klepnutím pridajte body</string>
+    <string name="msg_select_points">Vyberte aspoň 3 body</string>
+    <string name="loc_not_found">Lokalita nebola nájdená</string>
+    <string name="err_search">Chyba pri hľadaní: %1$s</string>
+
+    <!-- Názvy zoznamov -->
+    <string name="title_all_notes">Všetky poznámky</string>
+    <string name="title_farms_zones">Farmy a zóny</string>
+    <string name="other_zones">Ostatné zóny</string>
+    <string name="zones_outside_farms">Zóny mimo definovaných fariem</string>
+    <string name="created_at">Vytvorené: %1$s</string>
+    <string name="old_note">Stará poznámka</string>
+
+    <!-- Obsah pomoci -->
+    <string name="help_title">Príručka Truffle Farm</string>
+    <string name="help_step1_title">1. Navigácia na mape</string>
+    <string name="help_step1_desc">Pomocou vyhľadávacieho panela v hornej časti nájdite svoje mesto alebo región. Mapa predvolene používa satelitné zobrazenie.</string>
+    <string name="help_step2_title">2. Pridávanie poznámok a značiek</string>
+    <string name="help_step2_desc">Dlhým stlačením ľubovoľného miesta a výberom možnosti „Pridať poznámku/značku“ umiestnite špendlík. Každá poznámka automaticky ukladá dátum vytvorenia.</string>
+    <string name="help_step3_title">3. Vrstvy farmy (hranice, pôda, rastliny)</string>
+    <string name="help_step3_desc">Na mape môžete kresliť rôzne vrstvy:\n• Hranica farmy: Hlavný obvod (zelená)\n• Oblasť pôdy: Definujte typy pôdy/poznámky (hnedá)\n• Oblasť výsadby: Mapujte, kde sa nachádzajú konkrétne stromy (tmavozelená)\n\nDlho stlačte na mape, vyberte typ vrstvy a klepnutím nakreslite tvar.</string>
+    <string name="help_step4_title">4. Inteligentná organizácia</string>
+    <string name="help_step4_desc">Na karte „Moje farmy“ sa oblasti pôdy a výsadby automaticky zoskupujú pod farmu, ku ktorej patria. U každého záznamu vidíte dátum vytvorenia. Klepnutím na položku sa k nej prenesiete na mape.</string>
+
+    <!-- Nastavenia/Jazyk -->
+    <string name="settings">Nastavenia</string>
+    <string name="change_language">Zmeniť jazyk</string>
+    <string name="english">Angličtina</string>
+    <string name="slovak">Slovenčina</string>
+</resources>

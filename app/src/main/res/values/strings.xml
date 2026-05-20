@@ -1,3 +1,67 @@
 <resources>
     <string name="app_name">truffleFarm</string>
+
+    <!-- Navigation -->
+    <string name="nav_map">Map</string>
+    <string name="nav_farms">My Farms</string>
+    <string name="nav_notes">Notes</string>
+    <string name="nav_help">Help</string>
+
+    <!-- Map UI -->
+    <string name="search_hint">Search city or area...</string>
+    <string name="undo">Undo</string>
+    <string name="restart">Restart</string>
+    <string name="finish">Finish</string>
+    <string name="search_desc">Search</string>
+
+    <!-- Dialogs & Actions -->
+    <string name="select_action">Select Action</string>
+    <string name="add_note_marker">Add Note/Marker</string>
+    <string name="define_farm_boundary">Define Farm Boundary</string>
+    <string name="define_soil_area">Define Soil Area</string>
+    <string name="define_planting_area">Define Planting Area</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="add_farm_note">Add Farm Note</string>
+    <string name="note_hint">e.g., Oak tree with black truffles</string>
+    <string name="new_area_title">Save %1$s Area</string>
+    <string name="name_hint">Name (e.g., North Hill)</string>
+    <string name="soil_notes_hint">Soil type (e.g., Clay, pH 7.5)</string>
+    <string name="plants_notes_hint">Trees/Plants (e.g., 50x Oak)</string>
+    <string name="general_notes_hint">General notes</string>
+    <string name="name_required">Name is required</string>
+
+    <!-- Drawing Messages -->
+    <string name="msg_draw_farm">Drawing Farm Boundary: Tap to place points</string>
+    <string name="msg_draw_soil">Drawing Soil Area: Tap to place points</string>
+    <string name="msg_draw_plants">Drawing Planting Area: Tap to place points</string>
+    <string name="msg_select_points">Select at least 3 points</string>
+    <string name="loc_not_found">Location not found</string>
+    <string name="err_search">Error searching: %1$s</string>
+
+    <!-- List Titles -->
+    <string name="title_all_notes">All Notes</string>
+    <string name="title_farms_zones">Farms &amp; Zones</string>
+    <string name="other_zones">Other Zones</string>
+    <string name="zones_outside_farms">Zones outside defined farms</string>
+    <string name="created_at">Created: %1$s</string>
+    <string name="old_note">Old Note</string>
+
+    <!-- Help Content -->
+    <string name="help_title">Truffle Farm Guide</string>
+    <string name="help_step1_title">1. Navigating the Map</string>
+    <string name="help_step1_desc">Use the search bar at the top to find your city or region. The map uses Satellite view by default.</string>
+    <string name="help_step2_title">2. Adding Notes &amp; Markers</string>
+    <string name="help_step2_desc">Long-press any location and select \'Add Note/Marker\' to place a pin. Each note automatically saves the date it was created.</string>
+    <string name="help_step3_title">3. Farm Layers (Boundaries, Soil, Plants)</string>
+    <string name="help_step3_desc">You can draw different layers on your map:\n• Farm Boundary: The main perimeter (Green)\n• Soil Area: Define soil types/notes (Brown)\n• Planting Area: Map where specific trees are (Dark Green)\n\nLong-press on the map, select the layer type, and tap to draw the shape.</string>
+    <string name="help_step4_title">4. Smart Organization</string>
+    <string name="help_step4_desc">In the \'My Farms\' tab, soil and planting areas are automatically grouped under the farm they belong to. You can see the creation date for every area and note. Tapping an item will take you to it on the map.</string>
+
+    <!-- Settings/Language -->
+    <string name="settings">Settings</string>
+    <string name="change_language">Change Language</string>
+    <string name="english">English</string>
+    <string name="slovak">Slovenčina</string>
 </resources>
