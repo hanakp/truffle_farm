@@ -9,16 +9,23 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(), 
     AreaListFragment.OnAreaSelectedListener, 
     NoteListFragment.OnNoteSelectedListener,
-    HomeFragment.OnHomeNavigationListener {
+    HomeFragment.OnHomeNavigationListener,
+    GalleryFragment.OnPhotoSelectedListener,
+    AuthFragment.OnAuthListener {
 
     private lateinit var bottomNav: BottomNavigationView
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = Firebase.auth
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -46,6 +53,10 @@ class MainActivity : AppCompatActivity(),
                     replaceFragment(NoteListFragment())
                     true
                 }
+                R.id.nav_gallery -> {
+                    replaceFragment(GalleryFragment())
+                    true
+                }
                 R.id.nav_help -> {
                     replaceFragment(HelpFragment())
                     true
@@ -55,19 +66,29 @@ class MainActivity : AppCompatActivity(),
         }
 
         if (savedInstanceState == null) {
-            replaceFragment(HomeFragment(), false)
+            checkUserLoggedIn()
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                if (currentFragment !is HomeFragment) {
+                if (currentFragment is AuthFragment) {
+                    finish()
+                } else if (currentFragment !is HomeFragment) {
                     bottomNav.selectedItemId = R.id.nav_home
                 } else {
                     finish()
                 }
             }
         })
+    }
+
+    private fun checkUserLoggedIn() {
+        if (auth.currentUser == null) {
+            replaceFragment(AuthFragment(), false)
+        } else {
+            replaceFragment(HomeFragment(), false)
+        }
     }
 
     private fun replaceFragment(fragment: Fragment, showBottomNav: Boolean = true) {
@@ -77,15 +98,49 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
+    override fun onAuthenticated() {
+        replaceFragment(HomeFragment(), false)
+    }
+
+    fun logout() {
+        auth.signOut()
+        replaceFragment(AuthFragment(), false)
+    }
+
     override fun onNavigateTo(itemId: Int) {
-        bottomNav.selectedItemId = itemId
+        if (itemId == R.id.nav_help) {
+            bottomNav.visibility = View.VISIBLE
+            replaceFragment(HelpFragment(), true)
+        } else if (itemId == R.id.nav_settings) {
+            bottomNav.visibility = View.VISIBLE
+            replaceFragment(SettingsFragment(), true)
+        } else if (itemId == R.id.nav_profile) {
+            bottomNav.visibility = View.VISIBLE
+            replaceFragment(ProfileFragment(), true)
+        } else {
+            bottomNav.selectedItemId = itemId
+        }
     }
 
     override fun onAreaSelected(lat: Double, lng: Double) {
         navigateToMap(lat, lng)
     }
 
+    override fun onAddNewRequested() {
+        val mapFragment = MapFragment().apply {
+            arguments = Bundle().apply {
+                putBoolean("request_add", true)
+            }
+        }
+        bottomNav.selectedItemId = R.id.nav_map
+        replaceFragment(mapFragment)
+    }
+
     override fun onNoteSelected(lat: Double, lng: Double) {
+        navigateToMap(lat, lng)
+    }
+
+    override fun onPhotoLocationSelected(lat: Double, lng: Double) {
         navigateToMap(lat, lng)
     }
 

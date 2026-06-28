@@ -6,6 +6,7 @@
     <string name="nav_map">Mapa</string>
     <string name="nav_farms">Moje farmy</string>
     <string name="nav_notes">Poznámky</string>
+    <string name="nav_gallery">Galéria</string>
     <string name="nav_help">Pomoc</string>
 
     <!-- Mapa UI -->
@@ -44,6 +45,7 @@
     <!-- Názvy zoznamov -->
     <string name="title_all_notes">Všetky poznámky</string>
     <string name="title_farms_zones">Farmy a zóny</string>
+    <string name="title_gallery">Galéria farmy</string>
     <string name="other_zones">Ostatné zóny</string>
     <string name="zones_outside_farms">Zóny mimo definovaných fariem</string>
     <string name="created_at">Vytvorené: %1$s</string>
@@ -55,16 +57,34 @@
     <string name="help_step1_desc">Pomocou vyhľadávacieho panela v hornej časti nájdite svoje mesto alebo región. Mapa predvolene používa satelitné zobrazenie.</string>
     <string name="help_step2_title">2. Pridávanie poznámok a značiek</string>
     <string name="help_step2_desc">Dlhým stlačením ľubovoľného miesta a výberom možnosti „Pridať poznámku/značku“ umiestnite špendlík. Každá poznámka automaticky ukladá dátum vytvorenia.</string>
-    <string name="help_step3_title">3. Vrstvy farmy (hranice, pôda, rastliny)</string>
+    <string name="help_step_photo_title">3. Fotenie</string>
+    <string name="help_step_photo_desc">Dlho stlačte na mape a vyberte „Odfotiť“. Po odfotení môžete pridať poznámku. Fotky sa ukladajú s presnou polohou GPS a dajú sa zobraziť klepnutím na modré značky na mape alebo v zozname poznámok.</string>
+    <string name="help_step3_title">4. Vrstvy farmy (hranice, pôda, rastliny)</string>
     <string name="help_step3_desc">Na mape môžete kresliť rôzne vrstvy:\n• Hranica farmy: Hlavný obvod (zelená)\n• Oblasť pôdy: Definujte typy pôdy/poznámky (hnedá)\n• Oblasť výsadby: Mapujte, kde sa nachádzajú konkrétne stromy (tmavozelená)\n\nDlho stlačte na mape, vyberte typ vrstvy a klepnutím nakreslite tvar.</string>
-    <string name="help_step4_title">4. Inteligentná organizácia</string>
+    <string name="help_step4_title">5. Inteligentná organizácia</string>
     <string name="help_step4_desc">Na karte „Moje farmy“ sa oblasti pôdy a výsadby automaticky zoskupujú pod farmu, ku ktorej patria. U každého záznamu vidíte dátum vytvorenia. Klepnutím na položku sa k nej prenesiete na mape.</string>
+
+    <string name="help_step5_title">6. Galéria</string>
+    <string name="help_step5_desc">Karta Galéria zobrazuje všetky fotografie odfotené na vašej farme. Klepnutím na fotku ju zobrazíte v plnej veľkosti alebo nájdete presné miesto, kde bola odfotená.</string>
 
     <!-- Nastavenia/Jazyk -->
     <string name="settings">Nastavenia</string>
     <string name="change_language">Zmeniť jazyk</string>
     <string name="english">Angličtina</string>
     <string name="slovak">Slovenčina</string>
+    <string name="login">Prihlásiť sa</string>
+    <string name="register">Registrovať sa</string>
+    <string name="email">E-mail</string>
+    <string name="password">Heslo</string>
+    <string name="logout">Odhlásiť sa</string>
+    <string name="auth_failed">Overenie zlyhalo.</string>
+    <string name="profile">Profil</string>
+    <string name="welcome">Vitajte, %1$s</string>
+    <string name="no_account">Nemáte účet? Registrujte sa</string>
+    <string name="has_account">Máte už účet? Prihláste sa</string>
+    <string name="take_photo">Odofotiť</string>
+    <string name="view_photo">Zobraziť fotku</string>
+    <string name="map_layer_colors">Farby vrstiev mapy</string>
 
     <!-- Typy oblastí -->
     <string name="type_soil">Oblasť pôdy</string>

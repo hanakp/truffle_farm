@@ -5,16 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="#F8F9FA">
 
+    <!-- Header Section -->
     <ImageView
-        android:id="@+id/home_logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="32dp"
+        android:id="@+id/home_logo_small"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/ic_truffle"
-        android:contentDescription="Truffle App Logo"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,50 +21,52 @@
         android:id="@+id/home_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
         android:text="@string/app_name"
-        android:textSize="28sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#3E2723"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_logo" />
+        app:layout_constraintBottom_toBottomOf="@id/home_logo_small"
+        app:layout_constraintStart_toEndOf="@id/home_logo_small"
+        app:layout_constraintTop_toTopOf="@id/home_logo_small" />
 
+    <!-- Main Grid Section -->
     <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flow"
+        android:id="@+id/flow_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:constraint_referenced_ids="card_map,card_farms,card_notes,card_help"
+        android:layout_marginTop="24dp"
+        app:constraint_referenced_ids="card_map,card_farms,card_notes,card_gallery"
         app:flow_maxElementsWrap="2"
         app:flow_wrapMode="aligned"
-        app:flow_horizontalGap="16dp"
-        app:flow_verticalGap="16dp"
+        app:flow_horizontalGap="12dp"
+        app:flow_verticalGap="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_title" />
+        app:layout_constraintTop_toBottomOf="@id/home_logo_small" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_map"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@android:drawable/ic_dialog_map"
                 android:contentDescription="@string/nav_map"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/nav_map"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -73,24 +74,25 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_farms"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@android:drawable/ic_menu_myplaces"
                 android:contentDescription="@string/nav_farms"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/nav_farms"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -98,60 +100,163 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_notes"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@android:drawable/ic_menu_edit"
                 android:contentDescription="@string/nav_notes"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/nav_notes"
+                android:textSize="14sp"
                 android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_gallery"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:contentDescription="@string/nav_gallery"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/nav_gallery"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Secondary Section -->
+    <TextView
+        android:id="@+id/tv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/settings"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#757575"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flow_main" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow_secondary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:constraint_referenced_ids="card_profile,card_settings,card_help"
+        app:flow_maxElementsWrap="3"
+        app:flow_wrapMode="aligned"
+        app:flow_horizontalGap="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_more" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_profile"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                android:contentDescription="@string/profile"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/profile"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_settings"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_preferences"
+                android:contentDescription="@string/settings"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/settings"
+                android:textSize="12sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_help"
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="80dp"
         app:cardCornerRadius="12dp"
-        app:cardElevation="4dp">
+        app:cardElevation="1dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@android:drawable/ic_menu_help"
                 android:contentDescription="@string/nav_help"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/nav_help"
-                android:textStyle="bold" />
+                android:textSize="12sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Language Footer -->
     <LinearLayout
         android:id="@+id/lang_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button

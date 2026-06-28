@@ -1,28 +1,34 @@
 package com.example.trufflefarm
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseExpandableListAdapter
-import android.widget.ExpandableListView
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.maps.android.PolyUtil
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class AreaListFragment : Fragment() {
 
-    private val PREFS_NAME = "TruffleFarmPrefs"
-    private val AREAS_KEY = "Areas"
-    private val OLD_FARMS_KEY = "Farms"
+    private val firestoreManager = FirestoreManager()
 
     interface OnAreaSelectedListener {
         fun onAreaSelected(lat: Double, lng: Double)
+        fun onAddNewRequested()
     }
 
     private var listener: OnAreaSelectedListener? = null
@@ -38,80 +44,168 @@ class AreaListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_notes, container, false)
         view.findViewById<TextView>(R.id.list_title).text = getString(R.string.title_farms_zones)
         
-        val expandableListView = view.findViewById<ExpandableListView>(R.id.expandable_list_view)
-        val groupedData = loadAndGroupAreas()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_tree)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         
-        val adapter = AreaExpandableAdapter(requireContext(), groupedData) { area ->
-            listener?.onAreaSelected(area.lat, area.lng)
+        val fab = view.findViewById<FloatingActionButton>(R.id.fab_add)
+        fab.setOnClickListener {
+            listener?.onAddNewRequested()
         }
-        expandableListView.setAdapter(adapter)
 
-        for (i in 0 until adapter.groupCount) {
-            expandableListView.expandGroup(i)
-        }
+        loadDataAndBuildTree(recyclerView)
 
         return view
     }
 
-    private fun loadAndGroupAreas(): List<Pair<Area, List<Area>>> {
-        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val allAreas = mutableListOf<Area>()
+    private fun loadDataAndBuildTree(recyclerView: RecyclerView) {
+        firestoreManager.getAreas { areas ->
+            if (!isAdded) return@getAreas
+            firestoreManager.getMarkers { markers ->
+                if (!isAdded) return@getMarkers
+                
+                val treeItems = buildTree(areas, markers)
+                recyclerView.adapter = TreeAdapter(treeItems) { item ->
+                    handleItemClick(item)
+                }
+            }
+        }
+    }
+
+    private fun buildTree(rawAreas: List<Map<String, Any>>, rawMarkers: List<Map<String, Any>>): List<TreeAdapter.TreeItem> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         
-        val areasSet = prefs.getStringSet(AREAS_KEY, emptySet()) ?: emptySet()
-        for (data in areasSet) {
-            val parts = data.split("|")
-            if (parts.size >= 4) {
-                val type = parts[0]
-                val name = parts[1]
-                val notes = parts[2]
-                val points = parsePoints(parts[3])
-                val dateStr = if (parts.size >= 5) {
-                    val ts = parts[4].toLongOrNull()
-                    if (ts != null) getString(R.string.created_at, dateFormat.format(Date(ts))) else ""
-                } else ""
-                
-                if (points.isNotEmpty()) {
-                    allAreas.add(Area(name, type, notes, points, dateStr))
-                }
-            }
-        }
-        
-        val oldFarmsSet = prefs.getStringSet(OLD_FARMS_KEY, emptySet()) ?: emptySet()
-        for (data in oldFarmsSet) {
-            val parts = data.split("|")
-            if (parts.size >= 2) {
-                val points = parsePoints(parts[1])
-                if (points.isNotEmpty()) {
-                    allAreas.add(Area(parts[0], "FARM", "", points, ""))
-                }
-            }
+        val allAreas = rawAreas.map { data ->
+            val pointsStr = data["points"] as String
+            val points = parsePoints(pointsStr)
+            Area(
+                data["name"] as String,
+                data["type"] as String,
+                data["notes"] as String,
+                points,
+                (data["timestamp"] as? Long)?.let { dateFormat.format(Date(it)) } ?: "",
+                data["photoPath"] as? String ?: ""
+            )
         }
 
+        val allNotes = rawMarkers.map { data ->
+            Note(
+                data["note"] as String,
+                data["lat"] as Double,
+                data["lng"] as Double,
+                (data["timestamp"] as? Long)?.let { dateFormat.format(Date(it)) } ?: "",
+                data["photoPath"] as? String ?: ""
+            )
+        }
+
+        val tree = mutableListOf<TreeAdapter.TreeItem>()
+        
         val farms = allAreas.filter { it.type == "FARM" }
-        val subAreas = allAreas.filter { it.type != "FARM" }
+        val soilAreas = allAreas.filter { it.type == "SOIL" }
+        val plantAreas = allAreas.filter { it.type == "PLANTS" }
 
-        val result = mutableListOf<Pair<Area, List<Area>>>()
-        
-        val usedSubAreas = mutableSetOf<Area>()
+        val usedSoil = mutableSetOf<Area>()
+        val usedPlants = mutableSetOf<Area>()
+        val usedNotes = mutableSetOf<Note>()
+
         for (farm in farms) {
-            val children = subAreas.filter { sub ->
-                PolyUtil.containsLocation(sub.points[0], farm.points, false)
+            tree.add(farm.toTreeItem(0))
+            
+            // 1. Soil Areas in this Farm
+            val farmSoil = soilAreas.filter { PolyUtil.containsLocation(it.points[0], farm.points, false) }
+            for (soil in farmSoil) {
+                tree.add(soil.toTreeItem(1))
+                usedSoil.add(soil)
+                
+                // 1a. Plants in this Soil
+                val soilPlants = plantAreas.filter { PolyUtil.containsLocation(it.points[0], soil.points, false) }
+                for (plant in soilPlants) {
+                    tree.add(plant.toTreeItem(2))
+                    usedPlants.add(plant)
+                    
+                    // 1ai. Notes in this Plant Area
+                    val plantNotes = allNotes.filter { PolyUtil.containsLocation(LatLng(it.lat, it.lng), plant.points, false) }
+                    for (note in plantNotes) {
+                        tree.add(note.toTreeItem(3))
+                        usedNotes.add(note)
+                    }
+                }
+                
+                // 1b. Notes in this Soil (but not in a plant area)
+                val soilNotes = allNotes.filter { 
+                    it !in usedNotes && PolyUtil.containsLocation(LatLng(it.lat, it.lng), soil.points, false) 
+                }
+                for (note in soilNotes) {
+                    tree.add(note.toTreeItem(2))
+                    usedNotes.add(note)
+                }
             }
-            result.add(farm to children)
-            usedSubAreas.addAll(children)
+
+            // 2. Plants in this Farm (but not in a specific soil area)
+            val farmPlants = plantAreas.filter { 
+                it !in usedPlants && PolyUtil.containsLocation(it.points[0], farm.points, false) 
+            }
+            for (plant in farmPlants) {
+                tree.add(plant.toTreeItem(1))
+                usedPlants.add(plant)
+                
+                // 2a. Notes in this Plant Area
+                val plantNotes = allNotes.filter { PolyUtil.containsLocation(LatLng(it.lat, it.lng), plant.points, false) }
+                for (note in plantNotes) {
+                    tree.add(note.toTreeItem(2))
+                    usedNotes.add(note)
+                }
+            }
+
+            // 3. Notes in this Farm (not in soil or plants)
+            val farmNotes = allNotes.filter { 
+                it !in usedNotes && PolyUtil.containsLocation(LatLng(it.lat, it.lng), farm.points, false) 
+            }
+            for (note in farmNotes) {
+                tree.add(note.toTreeItem(1))
+                usedNotes.add(note)
+            }
         }
 
-        val orphaned = subAreas.filter { it !in usedSubAreas }
-        if (orphaned.isNotEmpty()) {
-            val dummyFarm = Area(getString(R.string.other_zones), "NONE", getString(R.string.zones_outside_farms), emptyList(), "")
-            result.add(dummyFarm to orphaned)
+        // Add "Orphaned" items
+        val orphanedSoil = soilAreas.filter { it !in usedSoil }
+        val orphanedPlants = plantAreas.filter { it !in usedPlants }
+        val orphanedNotes = allNotes.filter { it !in usedNotes }
+        
+        if (orphanedSoil.isNotEmpty() || orphanedPlants.isNotEmpty() || orphanedNotes.isNotEmpty()) {
+            tree.add(TreeAdapter.TreeItem(getString(R.string.other_zones), "NONE", "", 0.0, 0.0, "", "", 0))
+            orphanedSoil.forEach { tree.add(it.toTreeItem(1)) }
+            orphanedPlants.forEach { tree.add(it.toTreeItem(1)) }
+            orphanedNotes.forEach { tree.add(it.toTreeItem(1)) }
         }
 
-        return result
+        return tree
+    }
+
+    private fun handleItemClick(item: TreeAdapter.TreeItem) {
+        if (item.photoPath.isNotEmpty()) {
+            val options = arrayOf(getString(R.string.nav_map), getString(R.string.view_photo))
+            AlertDialog.Builder(requireContext())
+                .setItems(options) { _, which ->
+                    if (which == 0) listener?.onAreaSelected(item.lat, item.lng)
+                    else showPhotoDialog(item.photoPath)
+                }.show()
+        } else {
+            listener?.onAreaSelected(item.lat, item.lng)
+        }
+    }
+
+    private fun showPhotoDialog(path: String) {
+        val imageView = ImageView(requireContext())
+        Glide.with(this).load(path).into(imageView)
+        imageView.adjustViewBounds = true
+        imageView.setPadding(32, 32, 32, 32)
+        AlertDialog.Builder(requireContext())
+            .setView(imageView)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     private fun parsePoints(pointsStr: String): List<LatLng> {
@@ -125,66 +219,15 @@ class AreaListFragment : Fragment() {
         }
     }
 
-    data class Area(val name: String, val type: String, val notes: String, val points: List<LatLng>, val date: String) {
-        val lat: Double get() = points.firstOrNull()?.latitude ?: 0.0
-        val lng: Double get() = points.firstOrNull()?.longitude ?: 0.0
+    data class Area(val name: String, val type: String, val notes: String, val points: List<LatLng>, val date: String, val photoPath: String) {
+        fun toTreeItem(level: Int) = TreeAdapter.TreeItem(
+            name, type, notes, points.firstOrNull()?.latitude ?: 0.0, points.firstOrNull()?.longitude ?: 0.0, date, photoPath, level
+        )
     }
 
-    class AreaExpandableAdapter(
-        private val context: Context,
-        private val data: List<Pair<Area, List<Area>>>,
-        private val onClick: (Area) -> Unit
-    ) : BaseExpandableListAdapter() {
-
-        override fun getGroupCount() = data.size
-        override fun getChildrenCount(groupPosition: Int) = data[groupPosition].second.size
-        override fun getGroup(groupPosition: Int) = data[groupPosition].first
-        override fun getChild(groupPosition: Int, childPosition: Int) = data[groupPosition].second[childPosition]
-        override fun getGroupId(groupPosition: Int) = groupPosition.toLong()
-        override fun getChildId(groupPosition: Int, childPosition: Int) = childPosition.toLong()
-        override fun hasStableIds() = true
-
-        override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_expandable_list_item_2, parent, false)
-            val farm = getGroup(groupPosition)
-            view.findViewById<TextView>(android.R.id.text1).apply {
-                text = "🚜 ${farm.name}"
-                setTypeface(null, android.graphics.Typeface.BOLD)
-            }
-            view.findViewById<TextView>(android.R.id.text2).apply {
-                val details = mutableListOf<String>()
-                if (farm.notes.isNotEmpty()) details.add(farm.notes)
-                if (farm.date.isNotEmpty()) details.add(farm.date)
-                text = details.joinToString(" | ")
-            }
-            view.setOnClickListener { onClick(farm) }
-            return view
-        }
-
-        override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-            val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_expandable_list_item_2, parent, false)
-            val area = getChild(groupPosition, childPosition)
-            val icon = if (area.type == "SOIL") "🟤" else "🌳"
-            
-            val typeName = when(area.type) {
-                "SOIL" -> context.getString(R.string.type_soil)
-                "PLANTS" -> context.getString(R.string.type_plants)
-                else -> area.type
-            }
-
-            view.findViewById<TextView>(android.R.id.text1).apply {
-                text = "      $icon ${area.name} ($typeName)"
-            }
-            view.findViewById<TextView>(android.R.id.text2).apply {
-                val details = mutableListOf<String>()
-                if (area.notes.isNotEmpty()) details.add(area.notes)
-                if (area.date.isNotEmpty()) details.add(area.date)
-                text = "            " + details.joinToString(" | ")
-            }
-            view.setOnClickListener { onClick(area) }
-            return view
-        }
-
-        override fun isChildSelectable(groupPosition: Int, childPosition: Int) = true
+    data class Note(val note: String, val lat: Double, val lng: Double, val date: String, val photoPath: String) {
+        fun toTreeItem(level: Int) = TreeAdapter.TreeItem(
+            note, "NOTE", "", lat, lng, date, photoPath, level
+        )
     }
 }

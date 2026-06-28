@@ -40,8 +40,17 @@ class HomeFragment : Fragment() {
         view.findViewById<MaterialCardView>(R.id.card_notes).setOnClickListener {
             navigationListener?.onNavigateTo(R.id.nav_notes)
         }
+        view.findViewById<MaterialCardView>(R.id.card_gallery).setOnClickListener {
+            navigationListener?.onNavigateTo(R.id.nav_gallery)
+        }
         view.findViewById<MaterialCardView>(R.id.card_help).setOnClickListener {
             navigationListener?.onNavigateTo(R.id.nav_help)
+        }
+        view.findViewById<MaterialCardView>(R.id.card_settings).setOnClickListener {
+            navigationListener?.onNavigateTo(R.id.nav_settings)
+        }
+        view.findViewById<MaterialCardView>(R.id.card_profile).setOnClickListener {
+            navigationListener?.onNavigateTo(R.id.nav_profile)
         }
 
         view.findViewById<Button>(R.id.btn_home_en).setOnClickListener {

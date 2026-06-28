@@ -6,6 +6,7 @@
     <string name="nav_map">Map</string>
     <string name="nav_farms">My Farms</string>
     <string name="nav_notes">Notes</string>
+    <string name="nav_gallery">Gallery</string>
     <string name="nav_help">Help</string>
 
     <!-- Map UI -->
@@ -44,6 +45,7 @@
     <!-- List Titles -->
     <string name="title_all_notes">All Notes</string>
     <string name="title_farms_zones">Farms &amp; Zones</string>
+    <string name="title_gallery">Farm Gallery</string>
     <string name="other_zones">Other Zones</string>
     <string name="zones_outside_farms">Zones outside defined farms</string>
     <string name="created_at">Created: %1$s</string>
@@ -55,16 +57,34 @@
     <string name="help_step1_desc">Use the search bar at the top to find your city or region. The map uses Satellite view by default.</string>
     <string name="help_step2_title">2. Adding Notes &amp; Markers</string>
     <string name="help_step2_desc">Long-press any location and select \'Add Note/Marker\' to place a pin. Each note automatically saves the date it was created.</string>
-    <string name="help_step3_title">3. Farm Layers (Boundaries, Soil, Plants)</string>
+    <string name="help_step_photo_title">3. Taking Photos</string>
+    <string name="help_step_photo_desc">Long-press on the map and select \'Take Photo\'. After taking the picture, you can add a note. Photos are saved with their exact GPS location and can be viewed by tapping the blue markers on the map or in the Notes list.</string>
+    <string name="help_step3_title">4. Farm Layers (Boundaries, Soil, Plants)</string>
     <string name="help_step3_desc">You can draw different layers on your map:\n• Farm Boundary: The main perimeter (Green)\n• Soil Area: Define soil types/notes (Brown)\n• Planting Area: Map where specific trees are (Dark Green)\n\nLong-press on the map, select the layer type, and tap to draw the shape.</string>
-    <string name="help_step4_title">4. Smart Organization</string>
+    <string name="help_step4_title">5. Smart Organization</string>
     <string name="help_step4_desc">In the \'My Farms\' tab, soil and planting areas are automatically grouped under the farm they belong to. You can see the creation date for every area and note. Tapping an item will take you to it on the map.</string>
+
+    <string name="help_step5_title">6. Gallery</string>
+    <string name="help_step5_desc">The Gallery tab shows all photos taken on your farm. Tap a photo to view it full size or to find the exact location where it was taken.</string>
 
     <!-- Settings/Language -->
     <string name="settings">Settings</string>
     <string name="change_language">Change Language</string>
     <string name="english">English</string>
     <string name="slovak">Slovenčina</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="logout">Logout</string>
+    <string name="auth_failed">Authentication failed.</string>
+    <string name="profile">Profile</string>
+    <string name="welcome">Welcome, %1$s</string>
+    <string name="no_account">Don\'t have an account? Register</string>
+    <string name="has_account">Already have an account? Login</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="view_photo">View Photo</string>
+    <string name="map_layer_colors">Map Layer Colors</string>
 
     <!-- Area Types -->
     <string name="type_soil">Soil Area</string>
